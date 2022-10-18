@@ -58,6 +58,18 @@ class App extends Component {
     this.setState({ filter: e.currentTarget.value });
   };
 
+  componentDidMount() {
+    console.log('mount');
+
+    const local = localStorage.getItem('contacts');
+    console.log('local', local);
+
+    const parselocal = JSON.parse(local);
+    console.log('parselocal', parselocal);
+
+    this.setState({ contacts: parselocal });
+  }
+
   componentDidUpdate(prevProps, prevState) {
     console.log('произошли изменения');
 
