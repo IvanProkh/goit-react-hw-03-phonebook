@@ -1,0 +1,105 @@
+import React, { Component } from 'react';
+import { nanoid } from 'nanoid';
+import { Wrapper } from './App.styled';
+
+import ContactForm from './ContactForm/ContactForm';
+import ContactList from './ContactList/ContactList';
+import Filter from './Filter/Filter';
+
+class App extends Component {
+  state = {
+    contacts: [
+      { id: 'id-1', name: 'Pavel Usov', number: '+380669998822' },
+      { id: 'id-2', name: 'Henri Kovil', number: '+380771117700' },
+    ],
+    filter: '',
+  };
+
+  addContact = (name, number) => {
+    // const sourceContacts = this.state.contacts;
+
+    if (
+      this.state.contacts.find(
+        contact =>
+          contact.name.toLowerCase() === name.toLowerCase() ||
+          contact.number === number
+      )
+    ) {
+      return alert(`${name} / ${number} is already in contacts!`);
+    }
+    {
+      const contact = {
+        name,
+        number,
+        id: nanoid(),
+      };
+      this.setState(({ contacts }) => {
+        return { contacts: [contact, ...contacts] };
+      });
+    }
+  };
+
+  //   const contact = {
+  //     name,
+  //     number,
+  //     id: nanoid(),
+  //   };
+
+  //   console.log('contact', contact);
+
+  //   this.setState(({ contacts }) => {
+  //     if (
+  //       contacts.find(
+  //         contact =>
+  //           contact.name.toLowerCase() === name.toLowerCase() ||
+  //           contact.number.toLowerCase() === number.toLowerCase()
+  //       )
+  //     ) {
+  //       return alert(`${name}/${number} is already in contacts!`);
+  //     }
+  //     return {
+  //       contacts: [contact, ...contacts],
+  //     };
+  //   });
+  // };
+
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
+
+  currentContacts = () => {
+    const { filter, contacts } = this.state;
+    return contacts.filter(contact => {
+      return (
+        contact.name.toLowerCase().includes(filter.toLowerCase()) ||
+        contact.number.toLowerCase().includes(filter.toLowerCase())
+      );
+    });
+  };
+
+  handleChangeFilter = e => {
+    console.log(e.currentTarget.value);
+    this.setState({ filter: e.currentTarget.value });
+  };
+
+  render() {
+    const { addContact, handleChangeFilter, currentContacts, deleteContact } =
+      this;
+    const { filter } = this.state;
+
+    return (
+      <Wrapper>
+        <h1>Phonebook</h1>
+        <ContactForm onSubmit={addContact} />
+
+        <h2>Contacts</h2>
+        <Filter filter={filter} onChange={handleChangeFilter} />
+        <ContactList items={currentContacts()} deleteContact={deleteContact} />
+      </Wrapper>
+    );
+  }
+}
+
+export default App;
