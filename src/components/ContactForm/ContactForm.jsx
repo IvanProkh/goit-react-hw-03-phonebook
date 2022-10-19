@@ -7,7 +7,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 
 let schema = yup.object().shape({
-  name: yup.string().max(16).required(),
+  name: yup.string().required(),
   number: yup.string().min(10).max(13).required(),
 });
 
