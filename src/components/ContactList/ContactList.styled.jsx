@@ -4,8 +4,10 @@ export const Contact = styled.ul`
   margin-top: 20px;
 
   li {
+    display: flex;
+    justify-content: space-between;
+
     margin: 5px;
-    align-items: center;
   }
 
   span:nth-child(2) {
