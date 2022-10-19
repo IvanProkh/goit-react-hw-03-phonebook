@@ -59,13 +59,9 @@ class App extends Component {
   };
 
   componentDidMount() {
-    console.log('mount');
-
     const local = localStorage.getItem('contacts');
-    console.log('local', local);
 
     const parseLocal = JSON.parse(local);
-    console.log('parselocal', parseLocal);
 
     if (parseLocal) {
       this.setState({ contacts: parseLocal });
@@ -73,10 +69,7 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('произошли изменения');
-
     if (this.state.contacts !== prevState) {
-      console.log('изменился стейт');
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
