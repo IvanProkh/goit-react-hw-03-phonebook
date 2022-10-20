@@ -15,6 +15,22 @@ class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const local = localStorage.getItem('contacts');
+
+    const parseLocal = JSON.parse(local);
+
+    if (parseLocal) {
+      this.setState({ contacts: parseLocal });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   addContact = (name, number) => {
     if (
       this.state.contacts.find(
@@ -57,22 +73,6 @@ class App extends Component {
     console.log(e.currentTarget.value);
     this.setState({ filter: e.currentTarget.value });
   };
-
-  componentDidMount() {
-    const local = localStorage.getItem('contacts');
-
-    const parseLocal = JSON.parse(local);
-
-    if (parseLocal) {
-      this.setState({ contacts: parseLocal });
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
 
   render() {
     const { addContact, handleChangeFilter, currentContacts, deleteContact } =
